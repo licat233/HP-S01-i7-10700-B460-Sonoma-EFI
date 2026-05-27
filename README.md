@@ -19,6 +19,7 @@ OpenCore EFI for HP S01-2020 desktop.
 - Audio layout: `alcid=11`
 - HDMI/display wake after display sleep works with `igfxonln=1`
 - USB mapped with `USBToolBox.kext` + `UTBMap.kext`
+- CSR8510 A10 USB Bluetooth test enabled with `BlueToolFixup.kext`
 - OpenCore picker uses `Builtin`, no OpenCanopy GUI
 - Debug boot arguments removed
 - Current boot args: `alcid=11 darkwake=0 igfxonln=1`
@@ -32,6 +33,12 @@ sudo pmset -a sleep 0 disksleep 0 hibernatemode 0 standby 0 powernap 0 proximity
 ```
 
 If display wake is unstable on your monitor or HDMI port, keep `igfxonln=1` in `boot-args`.
+
+## Bluetooth Notes
+
+The onboard Realtek Bluetooth device from the RTL8821CE card is disabled in the USB map. This EFI is set up to test an external CSR8510 A10 USB Bluetooth adapter with `BlueToolFixup.kext`.
+
+After booting, check System Settings or System Report. If Bluetooth still does not appear on Sonoma, this specific CSR8510 A10 adapter is likely not compatible with modern macOS.
 
 ## Important
 
