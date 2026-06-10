@@ -268,22 +268,6 @@
 				<data>
 				BwCbPg==
 				</data>
-				<key>framebuffer-con0-enable</key>
-				<data>
-				AQAAAA==
-				</data>
-				<key>framebuffer-con0-type</key>
-				<data>
-				AAgAAA==
-				</data>
-				<key>framebuffer-con1-enable</key>
-				<data>
-				AQAAAA==
-				</data>
-				<key>framebuffer-con1-type</key>
-				<data>
-				AAgAAA==
-				</data>
 				<key>framebuffer-con2-enable</key>
 				<data>
 				AQAAAA==
@@ -609,7 +593,7 @@
 			<key>TakeoffDelay</key>
 			<integer>0</integer>
 			<key>Timeout</key>
-			<integer>1</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Debug</key>
 		<dict>
@@ -793,9 +777,9 @@
 			<key>SystemProductName</key>
 			<string>iMac20,1</string>
 			<key>SystemSerialNumber</key>
-			<string>REPLACE_WITH_YOUR_SERIAL</string>
+			<string>4CE1291NSZ233</string>
 			<key>SystemUUID</key>
-			<string>00000000-0000-0000-0000-000000000000</string>
+			<string>18D56B67-6F63-7A44-4343-C295A06BEEA9</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
