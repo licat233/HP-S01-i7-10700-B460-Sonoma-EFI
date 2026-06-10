@@ -1,5 +1,15 @@
 # HP S01-2020 Hackintosh EFI
 
+## IGPU Connector Test Variant
+
+This test copy keeps `igfxonln=1` but narrows the HDMI framebuffer patch to the
+active display connector only. Hackintool showed the `PHL 241V8` display on
+index 3, so this variant keeps only `framebuffer-con2-enable` and
+`framebuffer-con2-type` while removing the unused con0/con1 HDMI overrides.
+
+It also adds `RestrictEvents.kext` 1.1.7 with `revcpu=1` and
+`revcpuname=Intel Core i7-10700` so About This Mac reports the actual CPU name.
+
 OpenCore EFI for HP S01-2020 desktop.
 
 ## Hardware
