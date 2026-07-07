@@ -1,5 +1,7 @@
 # HP S01 i7-10700 B460 Sonoma EFI
 
+![BCM94352Z Wi-Fi and Bluetooth success thumbnail](docs/images/thumbnail-bcm94352z-success.png)
+
 OpenCore EFI variants for the HP Slim Desktop S01 platform.
 
 Tested machine:
