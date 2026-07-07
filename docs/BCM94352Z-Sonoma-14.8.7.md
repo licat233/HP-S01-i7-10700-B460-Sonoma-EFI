@@ -12,6 +12,12 @@ This note documents the tested path that finally made BCM94352Z work on the HP S
 - USB flash drives work
 - Mechanical HDD mounts normally
 
+Evidence screenshots:
+
+![Wi-Fi and Bluetooth enabled from Control Center](images/wifi-bluetooth-working.png)
+
+![About This Mac showing Sonoma 14.8.7](images/about-this-mac-sonoma-14.8.7.png)
+
 ## Key Discovery
 
 On Sonoma, BCM94352Z does not work by only adding old Broadcom kexts. Apple removed the legacy Broadcom Wi-Fi stack, so the working solution needs both:
@@ -117,4 +123,3 @@ These may be useful in other builds, but they were deliberately left out here to
 ## Update Reminder
 
 After any macOS update, run OCLP root patch again. Broadcom Wi-Fi may stop working until the `Modern Wireless` patch is re-applied.
-

@@ -43,6 +43,12 @@ Verified working:
 - Mechanical HDD mounts normally
 - Ethernet remains available
 
+Screenshots from the tested machine:
+
+![Wi-Fi and Bluetooth working](docs/images/wifi-bluetooth-working.png)
+
+![About This Mac on Sonoma 14.8.7](docs/images/about-this-mac-sonoma-14.8.7.png)
+
 The Broadcom Wi-Fi root patch is not fully contained in EFI. After installing or updating macOS, run OpenCore Legacy Patcher and apply:
 
 ```text
@@ -88,4 +94,3 @@ See [docs/BCM94352Z-Sonoma-14.8.7.md](docs/BCM94352Z-Sonoma-14.8.7.md) for the f
 - OCLP root patches must be re-applied after macOS updates.
 - System sleep is not the primary tested workflow. Display sleep was used during daily testing.
 - This EFI is shared as a reference, not a universal installer.
-
