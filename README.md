@@ -51,6 +51,8 @@ Screenshots from the tested machine:
 
 ![About This Mac on Sonoma 14.8.7](docs/images/about-this-mac-sonoma-14.8.7.png)
 
+![img](https://i1.hdslb.com/bfs/new_dyn/59ab2fe6c1b6d960b6b0c58b0ec52dae352649956.png@806w_484h.webp)
+
 The Broadcom Wi-Fi root patch is not fully contained in EFI. After installing or updating macOS, run OpenCore Legacy Patcher and apply:
 
 ```text
