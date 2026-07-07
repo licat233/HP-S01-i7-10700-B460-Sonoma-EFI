@@ -1,68 +1,91 @@
-# HP S01-2020 Hackintosh EFI
+# HP S01 i7-10700 B460 Sonoma EFI
 
-## IGPU Connector Test Variant
+OpenCore EFI variants for the HP Slim Desktop S01 platform.
 
-This test copy keeps `igfxonln=1` but narrows the HDMI framebuffer patch to the
-active display connector only. Hackintool showed the `PHL 241V8` display on
-index 3, so this variant keeps only `framebuffer-con2-enable` and
-`framebuffer-con2-type` while removing the unused con0/con1 HDMI overrides.
+Tested machine:
 
-It also adds `RestrictEvents.kext` 1.1.7 with `revcpu=1` and
-`revcpuname=Intel Core i7-10700` so About This Mac reports the actual CPU name.
-
-OpenCore EFI for HP S01-2020 desktop.
-
-## Hardware
-
-- Model: HP S01-2020 desktop
+- Model: HP Slim Desktop S01 / S01-pF1xxx
+- Motherboard: HP B460 platform
 - CPU: Intel Core i7-10700
 - iGPU: Intel UHD Graphics 630
-- Memory: 16 GB
-- Storage: 256 GB SSD
-- macOS: Sonoma 14.8.5
+- Audio: Realtek ALC897, `alcid=11`
+- Ethernet: Realtek RTL8111
+- macOS: Sonoma 14.8.x
 - SMBIOS: iMac20,1
 
-## Status
+## Versions
 
-- Boots macOS Sonoma
-- UHD630 graphics works
-- Audio layout: `alcid=11`
-- HDMI/display wake after display sleep works with `igfxonln=1`
-- USB mapped with legacy `USBMap.kext`; all tested ports work at USB2 speed
-- CSR8510 A10 USB Bluetooth works with `BlueToolFixup.kext`
-- OpenCore picker uses `Builtin`, no OpenCanopy GUI
-- Debug boot arguments removed
-- Current boot args: `alcid=11 darkwake=0 igfxonln=1`
+This repository keeps two EFI variants side by side.
 
-## Power Notes
+| Path | Purpose |
+| --- | --- |
+| `EFI-HP-Stock/EFI` | Baseline EFI for the original HP S01 hardware profile. The factory Realtek RTL8821CE Wi-Fi is not supported by macOS and remains disabled. |
+| `EFI-BCM94352Z/EFI` | Tested EFI for BCM94352Z / DW1560 on macOS Sonoma 14.8.7 with OCLP Modern Wireless root patch. Wi-Fi, Bluetooth, USB, and the mechanical HDD were verified working. |
 
-For daily use on this desktop, system sleep is intentionally disabled and display sleep can be used instead. The tested macOS power baseline is:
+To use a variant, copy the inner `EFI` directory to the target EFI partition.
 
-```bash
-sudo pmset -a sleep 0 disksleep 0 hibernatemode 0 standby 0 powernap 0 proximitywake 0 ttyskeepawake 0
+## Current Verified BCM94352Z Result
+
+The `EFI-BCM94352Z` variant was tested after updating to:
+
+```text
+macOS Sonoma 14.8.7
+Build 23J520
+OpenCore Legacy Patcher 2.4.1
 ```
 
-If display wake is unstable on your monitor or HDMI port, keep `igfxonln=1` in `boot-args`.
+Verified working:
 
-## Bluetooth Notes
+- Wi-Fi scans hotspots and connects normally
+- Bluetooth scans and connects normally
+- Bluetooth headset audio is smooth
+- USB flash drives are detected
+- Mechanical HDD mounts normally
+- Ethernet remains available
 
-External CSR8510 A10 USB Bluetooth is verified working on Sonoma with `BlueToolFixup.kext`.
+The Broadcom Wi-Fi root patch is not fully contained in EFI. After installing or updating macOS, run OpenCore Legacy Patcher and apply:
 
-## USB Notes
+```text
+Post-Install Root Patch -> Networking: Modern Wireless
+```
 
-The current stable EFI keeps `SSDT-USB-Reset.aml` enabled and uses legacy `USBMap.kext`. On the tested HP S01 unit, all tested ports work reliably at USB2 speed under macOS. Front USB3 SuperSpeed behavior is not considered solved in this EFI.
+## Important Before Booting
 
-## Important
-
-Before using this EFI, generate your own SMBIOS values and replace these fields in `EFI/OC/config.plist`:
+Do not reuse someone else's SMBIOS identity. Generate your own values and update:
 
 - `PlatformInfo -> Generic -> SystemSerialNumber`
 - `PlatformInfo -> Generic -> MLB`
 - `PlatformInfo -> Generic -> SystemUUID`
 - `PlatformInfo -> Generic -> ROM`
 
-Do not use the placeholder values as-is.
+Also review boot picker entries, BIOS settings, storage layout, USB mapping, and network card before using either EFI on a different HP S01 unit.
 
-## Notes
+## BCM94352Z Notes
 
-This EFI is shared as a reference for the HP S01-2020 / Comet Lake / UHD630 platform. Review BIOS settings, USB mapping, network card, storage, and SMBIOS before using it on another machine.
+BCM94352Z / DW1560 on Sonoma needs more than the old `AirportBrcmFixup` recipes. The working path here is:
+
+- `IOSkywalkFamily.kext`
+- `IO80211FamilyLegacy.kext`
+- `IO80211FamilyLegacy.kext/Contents/PlugIns/AirPortBrcmNIC.kext`
+- `AirportBrcmFixup.kext`
+- `AirportBrcmFixup.kext/Contents/PlugIns/AirPortBrcmNIC_Injector.kext`
+- OCLP `Modern Wireless` root patch
+
+The tested setup does not use:
+
+- `AMFIPass.kext`
+- `BrcmBluetoothInjector.kext`
+- `AirPortBrcm4360_Injector.kext`
+- Wi-Fi DeviceProperties spoofing
+- `brcmfx-country=HK`
+- `-lilubetaall`
+
+See [docs/BCM94352Z-Sonoma-14.8.7.md](docs/BCM94352Z-Sonoma-14.8.7.md) for the full tested notes and pitfalls.
+
+## Known Limitations
+
+- The factory Realtek RTL8821CE Wi-Fi card is not supported by this EFI under macOS.
+- OCLP root patches must be re-applied after macOS updates.
+- System sleep is not the primary tested workflow. Display sleep was used during daily testing.
+- This EFI is shared as a reference, not a universal installer.
+
